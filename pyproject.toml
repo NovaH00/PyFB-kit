@@ -1,0 +1,17 @@
+[project]
+name = "pyfb-kit"
+version = "0.1.0"
+description = "A wrapper for the facebook-sdk which provides an ergonomic way to manage common interactions using the facebook-sdk"
+readme = "README.md"
+authors = [
+    { name = "NovaH00", email = "trantay2006super@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "facebook-sdk>=3.1.0",
+    "pydantic>=2.12.5",
+]
+
+[build-system]
+requires = ["uv_build>=0.9.17,<0.10.0"]
+build-backend = "uv_build"
