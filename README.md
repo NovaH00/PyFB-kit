@@ -1,3 +1,4 @@
+[Tiếng Việt](README-vi.md)
 # PyFB-kit
 
 A Python wrapper for the Facebook Graph API that provides convenient abstractions for managing and moderating Facebook pages and comments.
