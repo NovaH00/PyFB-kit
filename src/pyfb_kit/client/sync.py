@@ -1,5 +1,4 @@
 from typing import Any, cast
-from collections.abc import Iterator
 
 import facebook
 from facebook import GraphAPI
@@ -54,41 +53,47 @@ class Client:
             A list of raw Facebook Graph API objects extracted from the 'data' field
         """
         all_data: Data = []
-        
+        seen_ids: set[str] = set()
+
         while True:
             # Request the current page
             res = graph.get_connections( # pyright: ignore
                 id,
                 connection_name,
                 **kwargs
-            ) 
+            )
             res = cast(Response, res)
 
             current_data: Data = res.get("data") # pyright: ignore
-            
+
             if current_data:
-                all_data.extend(current_data)
+                # Filter out duplicates by tracking seen IDs
+                for item in current_data:
+                    item_id = item.get("id")
+                    if item_id and item_id not in seen_ids:
+                        seen_ids.add(item_id)
+                        all_data.append(item)
 
             # Check for the next page cursor ('after')
             # Facebook Structure: {'paging': {'cursors': {'after': '...'}}}
             try:
                 paging = res.get("paging", None)
                 if not paging: break
-                    
+
                 cursors = paging.get("cursors")
                 if not cursors: break
-                    
+
                 after = cursors.get("after")
                 if not after: break
-                
+
                 # Update kwargs with the 'after' cursor for the next iteration
                 kwargs["after"] = after
-                
+
             except (AttributeError, TypeError):
                 # If the response structure is unexpected, stop pagination
                 break
-                
-        return all_data 
+
+        return all_data
 
     def get_accounts(self) -> list[Account]:
         """
