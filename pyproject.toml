@@ -1,0 +1,25 @@
+[project]
+name = "pyfb-kit"
+version = "1.0.0"
+description = "A modern, async Python SDK for the Facebook Graph API."
+readme = "README.md"
+authors = [
+    { name = "NovaH00", email = "trantay2006super@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "asyncio>=4.0.0",
+    "httpx>=0.28.1",
+    "pydantic>=2.13.4",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "returns>=0.28.0",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[build-system]
+requires = ["uv_build>=0.11.7,<0.12.0"]
+build-backend = "uv_build"
